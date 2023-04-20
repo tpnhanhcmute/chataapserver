@@ -26,20 +26,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var dotenv = __importStar(require("dotenv"));
-var express_1 = __importDefault(require("express"));
-var cors_1 = __importDefault(require("cors"));
-var helmet_1 = __importDefault(require("helmet"));
-var user_router_1 = __importDefault(require("./route/user.router"));
-var common_router_1 = __importDefault(require("./route/common.router"));
+/// <reference lib="es2018" />
+const dotenv = __importStar(require("dotenv"));
+const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
+const helmet_1 = __importDefault(require("helmet"));
+const user_router_1 = __importDefault(require("./route/user.router"));
+const common_router_1 = __importDefault(require("./route/common.router"));
+const image_router_1 = __importDefault(require("./route/image.router"));
 dotenv.config();
-var PORT = parseInt(process.env.PORT, 10);
-var app = (0, express_1.default)();
+const PORT = parseInt(process.env.PORT, 10);
+const app = (0, express_1.default)();
 app.use((0, helmet_1.default)());
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 (0, user_router_1.default)(app);
 (0, common_router_1.default)(app);
-var server = app.listen(PORT, function () {
-    console.log("Listening on port ".concat(PORT));
+(0, image_router_1.default)(app);
+const server = app.listen(PORT, () => {
+    console.log(`Listening on port ${PORT}`);
 });
+//# sourceMappingURL=index.js.map

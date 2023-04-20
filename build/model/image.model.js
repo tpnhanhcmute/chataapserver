@@ -1,3 +1,3 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-//# sourceMappingURL=otp.request.model.js.map
+//# sourceMappingURL=image.model.js.map

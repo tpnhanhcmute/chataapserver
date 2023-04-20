@@ -23,16 +23,19 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.database = exports.realtimedb = void 0;
-var admin = __importStar(require("firebase-admin"));
-var serviceAccount = __importStar(require("../config/firebase_service_accout_key.json"));
+exports.bucket = exports.database = exports.realtimedb = void 0;
+const admin = __importStar(require("firebase-admin"));
+const serviceAccount = __importStar(require("../config/firebase_service_accout_key.json"));
 require("firebase/firestore");
-var firestore_1 = require("firebase-admin/firestore");
-var app = admin.initializeApp({
+const app = admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://chatapp-319f6-default-rtdb.asia-southeast1.firebasedatabase.app"
+    databaseURL: "https://chatapp-319f6-default-rtdb.asia-southeast1.firebasedatabase.app",
+    storageBucket: "gs://chatapp-319f6.appspot.com/"
 });
-var realtimedb = admin.database();
+const realtimedb = admin.database();
 exports.realtimedb = realtimedb;
-var database = (0, firestore_1.getFirestore)(app);
+const database = admin.firestore();
 exports.database = database;
+const bucket = admin.storage().bucket();
+exports.bucket = bucket;
+//# sourceMappingURL=firebase.service.js.map

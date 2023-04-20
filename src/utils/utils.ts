@@ -8,9 +8,9 @@ const randomNumber = function randomNumber(length:number) : String {
     return numberRandom
 }
 
-const hashMessage =async function hashMessage(message: string): Promise<string> {
+const hashMessage =async function hashMessage(message: String): Promise<String> {
     const hash = crypto.createHash('sha256');
-    hash.update(message);
+    hash.update(message.toString());
     const hashedMessage = hash.digest('hex');
     return hashedMessage;
 }

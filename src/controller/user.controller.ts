@@ -3,7 +3,7 @@ import { User } from "../model/user.model";
 import {database} from "../service/firebase.service"
 import utils from "../utils/utils";
 import emailService from "../service/email.service"
-import * as nodemailer from 'nodemailer';
+import { LoginRequest } from "../model/login.request.model";
 
 const register = async (req: Request, res: Response): Promise<void> => {
     try{
@@ -12,7 +12,7 @@ const register = async (req: Request, res: Response): Promise<void> => {
         let isExitedAcount:Boolean = false
         let userID:String =""
         newUser.isAuth= false
-        newUser.password = await utils.hashMessage(newUser.password.toString())
+        newUser.password = await utils.hashMessage(newUser.password)
 
         const userRef = database.collection("user")
         const thisUser = await userRef.where("email","==", newUser.email).get()
@@ -63,4 +63,36 @@ const register = async (req: Request, res: Response): Promise<void> => {
     })
    }
 }
-export default {register}
+const login = async (req:Request, res:Response):Promise<void> =>{
+   try{
+        const loginRequest  = req.body as LoginRequest
+        const userDocs = await database.collection('user').where("email","==",loginRequest.email).where("isAuth","==",true).limit(1)
+        const userInfos = await userDocs.get()
+        if(userInfos.size == 0) throw "email not found"
+
+        let userInfo = (userInfos.docs[0]).data() as User
+        const hasPassword =await  utils.hashMessage(loginRequest.password)
+        if(hasPassword==userInfo.password)
+        {
+            userInfo.password =  loginRequest.password
+            res.status(200).send({
+                isError:false,
+                message:"Login successfully",
+                data:{
+                    userID: userInfos.docs[0].id,
+                    userName: userInfo.name,
+                    email:userInfo.email,
+                    password:userInfo.password
+                }
+            })
+        }else{
+            throw "Incorrect password"
+        }
+   }catch(error){
+    res.status(404).send({
+        isError:true,
+        message:error
+    })
+   }
+}
+export default {register, login}
