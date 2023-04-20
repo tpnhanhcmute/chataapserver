@@ -1,1 +1,0 @@
-{"version":3,"file":"common.router.js","sourceRoot":"","sources":["../../src/route/common.router.ts"],"names":[],"mappings":";;;;;AAAA,oGAAoE;AAGpE,MAAM,YAAY,GAAI,CAAC,GAAgB,EAAQ,EAAE;IAC7C,GAAG,CAAC,IAAI,CAAC,mBAAmB,EAAE,iCAAgB,CAAC,SAAS,CAAC,CAAC;IAC1D,GAAG,CAAC,IAAI,CAAC,yBAAyB,EAAC,iCAAgB,CAAC,eAAe,CAAC,CAAA;AACtE,CAAC,CAAC;AACJ,kBAAe,YAAY,CAAC"}
