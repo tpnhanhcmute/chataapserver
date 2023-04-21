@@ -4,6 +4,7 @@ import {database} from "../service/firebase.service"
 import utils from "../utils/utils";
 import emailService from "../service/email.service"
 import { LoginRequest } from "../model/login.request.model";
+import { UpdateProfileRequest } from "../model/updateProfile.request.model";
 
 const register = async (req: Request, res: Response): Promise<void> => {
     try{
@@ -82,7 +83,8 @@ const login = async (req:Request, res:Response):Promise<void> =>{
                     userID: userInfos.docs[0].id,
                     userName: userInfo.name,
                     email:userInfo.email,
-                    password:userInfo.password
+                    password:userInfo.password,
+                    phoneNumber: userInfo.phoneNumber
                 }
             })
         }else{
@@ -95,4 +97,22 @@ const login = async (req:Request, res:Response):Promise<void> =>{
     })
    }
 }
-export default {register, login}
+const update = async (req:Request, res: Response): Promise<void>=>{
+    try{
+        const newInfo = req.body as UpdateProfileRequest
+        const userDoc = await database.collection('user').doc(newInfo.userID.toString()).update({
+        name: newInfo.name,
+        phoneNumber:newInfo.phoneNumber
+        })
+        res.status(200).send({
+            isError:false,
+            message:"Update profile successful"
+        })
+    }catch(error){
+        res.status(500).send({
+            isError:true,
+            message:error
+        })
+    }
+}
+export default {register, login, update}

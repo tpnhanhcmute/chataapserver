@@ -4,5 +4,6 @@ import { Application, Response } from 'express';
 const userRoutes =  (app: Application): void => {
     app.post('/user/register', userController.register);
     app.post('/user/login', userController.login)
+    app.post('/user/update', userController.update)
   };
 export default userRoutes;

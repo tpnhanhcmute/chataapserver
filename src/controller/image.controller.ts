@@ -3,13 +3,19 @@ import {bucket} from "../service/firebase.service"
 import multer from 'multer';
 import * as path from 'path';
 import * as dotenv from "dotenv";
+import { database } from "../service/firebase.service"
+import { Image } from "../model/image.model";
 
 dotenv.config();
 const upload = async (req:Request,res:Response):Promise<void> =>{
  try{
     const file = req.file;
+    const {userID} = req.body
+    console.log(req.body)
     if (!file) throw "No file uploaded."
-    const blob = bucket.file(file.originalname);
+
+    const filePath = "images/" + file.originalname;
+    const blob = bucket.file(filePath);
     const blobStream = blob.createWriteStream({
       metadata: {
         contentType: file.mimetype
@@ -29,6 +35,12 @@ const upload = async (req:Request,res:Response):Promise<void> =>{
         });
 
         const publicUrl = signedUrls
+        const  newImage = {} as Image
+        newImage.userID = userID
+        newImage.url = publicUrl.toString()
+
+        await database.collection('image').add(newImage)
+
         res.status(200).send({
           isError:false,
           message:"Upload image successfull",
@@ -40,7 +52,7 @@ const upload = async (req:Request,res:Response):Promise<void> =>{
       });
       blobStream.end(file.buffer);
     });
-    
+
   } catch (error) {
     res.status(500).send({
       isError:true,
