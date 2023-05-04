@@ -5,6 +5,7 @@ import utils from "../utils/utils";
 import emailService from "../service/email.service"
 import { LoginRequest } from "../model/login.request.model";
 import { UpdateProfileRequest } from "../model/updateProfile.request.model";
+import { LogoutRequest } from "../model/logout.request";
 
 const register = async (req: Request, res: Response): Promise<void> => {
     try{
@@ -107,6 +108,30 @@ const login = async (req:Request, res:Response):Promise<void> =>{
     })
    }
 }
+
+const logout = async (req:Request, res: Response):Promise<void>=>{
+    const logoutRequest = req.body as LogoutRequest
+    try{
+        const userRef =  database.collection("user").doc(logoutRequest.userID)
+        const userSnapshot =await userRef.get()
+        let deviceTokens = (userSnapshot.data() as User).deviceToken
+
+        deviceTokens = deviceTokens.filter( x => !x.includes(logoutRequest.deviceToken))
+
+        await userRef.update({"deviceToken": deviceTokens})
+        res.status(200).send({
+            isError:false,
+            message:"Logout successfully"
+        })
+
+    }catch(error){
+        res.status(400).send({
+            isError:true,
+            message:error
+        })
+    }
+}
+
 const update = async (req:Request, res: Response): Promise<void>=>{
     try{
         const newInfo = req.body as UpdateProfileRequest
@@ -125,4 +150,4 @@ const update = async (req:Request, res: Response): Promise<void>=>{
         })
     }
 }
-export default {register, login, update}
+export default {register, login, update, logout}
