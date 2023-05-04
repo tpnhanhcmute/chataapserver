@@ -16,6 +16,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "heroku-postbuild": "npm install -g ts-node && npm install && tsc",
     "postinstall": "tsc",
     "start": "tsc && node build/index.js",
