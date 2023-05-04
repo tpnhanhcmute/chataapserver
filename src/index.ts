@@ -4,7 +4,6 @@ import cors from "cors";
 import helmet from "helmet";
 import userRoute from "./route/user.router"
 import commonRoute from "./route/common.router"
-import imageRoute from "./route/image.router";
 dotenv.config();
 
 const PORT: number = parseInt(process.env.PORT as string, 10);
@@ -16,7 +15,6 @@ app.use(cors());
 app.use(express.json());
 userRoute(app)
 commonRoute(app)
-imageRoute(app)
 
 app.get("/", (req, res) => {
   res.send("Hello world");
