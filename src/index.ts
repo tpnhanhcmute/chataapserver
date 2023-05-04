@@ -19,6 +19,10 @@ userRoute(app)
 commonRoute(app)
 imageRoute(app)
 
+app.get("/", (req, res) => {
+  res.send("Hello world");
+});
+
 const server = app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
   });
