@@ -35,7 +35,7 @@
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.1",
     "readable-stream": "^4.3.0",
-    "web-streams-polyfill": "^3.2.1",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "web-streams-polyfill": "^3.2.1"
   }
 }
