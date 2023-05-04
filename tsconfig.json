@@ -1,17 +1,15 @@
 {
   "compilerOptions": {
-    "target": "ES2018",                          
-    "module": "commonjs",                    
-    "lib": ["es2020", "dom"],                
-    "allowJs": true,
+    
     "outDir": "build",                          
     "rootDir": "src",
-    "strict": true,         
-    "noImplicitAny": true, 
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "types": ["node"]
+    "target": "es6",    
+    "lib": ["es2020", "dom"],                                      /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+    "moduleDetection": "auto",                        /* Control what method is used to detect module-format JS files. */
+    "module": "CommonJS",                                /* Specify what module code is generated. */                              /* Specify the root folder within your source files. */
+    "moduleResolution": "node",                     /* Specify how TypeScript looks up a file from a given module specifier. */
+    "resolveJsonModule": true,                        /* Enable importing .json files. */
+    "esModuleInterop": true,                             /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
+    "forceConsistentCasingInFileNames": true,            /* Ensure that casing is correct in imports. */
   }
 }
