@@ -1,3 +1,3 @@
 export interface AuthenticationOTPRequest{
-    userID: String
+    userID: string
 }

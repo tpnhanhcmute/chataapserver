@@ -1,5 +1,5 @@
 export interface UpdateProfileRequest{
-    userID: String,
-    name: String,
-    phoneNumber: String
+    userID: string,
+    name: string,
+    phoneNumber: string
 }

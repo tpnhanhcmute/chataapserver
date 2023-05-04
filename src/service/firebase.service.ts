@@ -14,4 +14,5 @@ const app = admin.initializeApp({
 const realtimedb = admin.database()
 const database = admin.firestore()
 const bucket = admin.storage().bucket()
-export {realtimedb, database, bucket}
+const message = admin.messaging()
+export {realtimedb, database, bucket , message}

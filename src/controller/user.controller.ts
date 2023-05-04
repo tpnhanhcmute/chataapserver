@@ -50,7 +50,7 @@ const register = async (req: Request, res: Response): Promise<void> => {
             data:{
             user:{
                 userID: userID,
-                userName: newUser.name,
+                name: newUser.name,
                 email:newUser.email,
                 password:password
             },
@@ -58,7 +58,7 @@ const register = async (req: Request, res: Response): Promise<void> => {
             }
         })
     }catch(error){
-    res.status(404).send({
+    res.status(400).send({
         isError: true,
         message:error
     })
@@ -71,27 +71,37 @@ const login = async (req:Request, res:Response):Promise<void> =>{
         const userInfos = await userDocs.get()
         if(userInfos.size == 0) throw "email not found"
 
-        let userInfo = (userInfos.docs[0]).data() as User
+        const userSnapshot = userInfos.docs.shift()
+        const userID = userSnapshot.id
+        let userInfo =userSnapshot.data() as User
         const hasPassword =await  utils.hashMessage(loginRequest.password)
         if(hasPassword==userInfo.password)
         {
+            let deviceTokens = userInfo.deviceToken
+            if(!deviceTokens)
+                deviceTokens = []
+           if(!deviceTokens.includes(loginRequest.deviceToken))
+           {
+            deviceTokens.push(loginRequest.deviceToken)
+           }
+            await database.collection("user").doc(userID).update({"deviceToken": deviceTokens})
+
             userInfo.password =  loginRequest.password
             res.status(200).send({
                 isError:false,
                 message:"Login successfully",
                 data:{
-                    userID: userInfos.docs[0].id,
+                    userID: userID,
                     userName: userInfo.name,
                     email:userInfo.email,
                     password:userInfo.password,
-                    phoneNumber: userInfo.phoneNumber
                 }
             })
         }else{
             throw "Incorrect password"
         }
    }catch(error){
-    res.status(404).send({
+    res.status(400).send({
         isError:true,
         message:error
     })
@@ -109,7 +119,7 @@ const update = async (req:Request, res: Response): Promise<void>=>{
             message:"Update profile successful"
         })
     }catch(error){
-        res.status(500).send({
+        res.status(400).send({
             isError:true,
             message:error
         })

@@ -1,4 +1,4 @@
 export interface RequestOTP{
-    userID:String
-    email:String
+    userID:string
+    email:string
 }

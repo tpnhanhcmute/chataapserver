@@ -1,7 +1,8 @@
 export interface User{
-    name : String
-    email:String
-    phoneNumber:String
+    name : string
+    email:string
     isAuth:boolean
-    password:String
+    password:string
+    avatarUrl:string
+    deviceToken:Array<String>
 }

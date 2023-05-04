@@ -20,7 +20,7 @@ const resendOtp =async (req: Request, res: Response): Promise<void> =>{
             }
         })
     }catch(error){
-        res.status(404).send({
+        res.status(400).send({
             isError:true,
             message:error
         })
@@ -39,7 +39,7 @@ const authenticateOtp = async (req:Request, res: Response):Promise<void>=>{
             message:"Authenticate successful",
         })
    }catch(error){
-    res.status(404).send({
+    res.status(400).send({
         isError:true,
         message:"Authenticate false. Please retry"
     })
