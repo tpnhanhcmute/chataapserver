@@ -3,4 +3,5 @@ export interface Contact{
     lastMessage:string
     avatarUrl:string
     name: string
+    date:string
 }

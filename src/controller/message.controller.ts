@@ -7,8 +7,13 @@ import { User } from "../model/user.model";
 const sendMessage = async (req:Request, res:Response): Promise<void> =>{
     const messageRequest = req.body as MessageRequest
 
+    const curentDate = new Date()
+    const dateString = curentDate.toLocaleString()
+
     messageRequest.message.senderID = messageRequest.senderID
     messageRequest.message.isRecall = false
+    messageRequest.message.date = dateString
+    
     try{
         const messageSenderRef =  realtimedb.ref(`message/${messageRequest.senderID}/${messageRequest.receiverID}`)
         const messageReciverRef = realtimedb.ref(`message/${messageRequest.receiverID}/${messageRequest.senderID}`)

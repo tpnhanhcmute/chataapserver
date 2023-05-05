@@ -22,6 +22,7 @@ const getContacts = async (req:Request, res:Response):Promise<void> =>{
             let contact = {} as Contact
             contact.userID = snapshot.key
             contact.lastMessage = lastValue.content
+            contact.date = lastValue.date
             contactList.push(contact)
         })
         
@@ -34,6 +35,7 @@ const getContacts = async (req:Request, res:Response):Promise<void> =>{
             const user = userDis[x.userID] as User
             x.avatarUrl = user.avatarUrl
             x.name = user.name
+            
         })
 
         res.status(200).send({

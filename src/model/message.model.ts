@@ -4,4 +4,5 @@ export interface Message{
     fileUrl:string
     isImage: boolean
     isRecall: boolean
+    date:string
 }
