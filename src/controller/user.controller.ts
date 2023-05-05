@@ -93,6 +93,7 @@ const login = async (req:Request, res:Response):Promise<void> =>{
                 message:"Login successfully",
                 data:{
                     userID: userID,
+                    phoneNumber:userInfo.phoneNumber,
                     userName: userInfo.name,
                     email:userInfo.email,
                     password:userInfo.password,

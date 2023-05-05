@@ -5,4 +5,5 @@ export interface User{
     password:string
     avatarUrl:string
     deviceToken:Array<String>
+    phoneNumber:string
 }
