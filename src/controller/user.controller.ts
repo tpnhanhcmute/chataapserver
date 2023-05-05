@@ -135,11 +135,14 @@ const logout = async (req:Request, res: Response):Promise<void>=>{
 const update = async (req:Request, res: Response): Promise<void>=>{
     try{
         const newInfo = req.body as UpdateProfileRequest
-        const userDoc = await database.collection('user').doc(newInfo.userID.toString()).update({
-        name: newInfo.name,
-        phoneNumber:newInfo.phoneNumber,
-        avatarUrl: newInfo.avatarUrl
-        })
+        let objectUpdate={} as any
+        if(newInfo.avatarUrl) objectUpdate["avatarUrl"] = newInfo.avatarUrl
+        if(newInfo.name) objectUpdate["name"]= newInfo.name
+        if(newInfo.phoneNumber) objectUpdate["phoneNumber"] = newInfo.phoneNumber
+
+        const userDoc = await database.collection('user').doc(newInfo.userID.toString()).update(
+            objectUpdate
+        )
         res.status(200).send({
             isError:false,
             message:"Update profile successful"
