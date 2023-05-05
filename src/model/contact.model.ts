@@ -4,4 +4,5 @@ export interface Contact{
     avatarUrl:string
     name: string
     date:string
+    messageID:string
 }

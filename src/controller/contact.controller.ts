@@ -23,6 +23,7 @@ const getContacts = async (req:Request, res:Response):Promise<void> =>{
             contact.userID = snapshot.key
             contact.lastMessage = lastValue.content
             contact.date = lastValue.date
+            contact.messageID = childSnapshot.key
             contactList.push(contact)
         })
         
