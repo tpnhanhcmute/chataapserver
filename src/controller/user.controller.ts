@@ -137,7 +137,8 @@ const update = async (req:Request, res: Response): Promise<void>=>{
         const newInfo = req.body as UpdateProfileRequest
         const userDoc = await database.collection('user').doc(newInfo.userID.toString()).update({
         name: newInfo.name,
-        phoneNumber:newInfo.phoneNumber
+        phoneNumber:newInfo.phoneNumber,
+        avatarUrl: newInfo.avatarUrl
         })
         res.status(200).send({
             isError:false,
