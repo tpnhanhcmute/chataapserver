@@ -20,10 +20,11 @@ const getContacts = async (req:Request, res:Response):Promise<void> =>{
             const lastValue = valuesArray[valuesArray.length - 1] as Message
 
             let contact = {} as Contact
-            contact.userID = snapshot.key
             contact.lastMessage = lastValue.content
             contact.date = lastValue.date
             contact.messageID = childSnapshot.key
+            contact.userID = childSnapshot.key
+            
             contactList.push(contact)
         })
         
@@ -32,18 +33,25 @@ const getContacts = async (req:Request, res:Response):Promise<void> =>{
             userDis[doc.id] = doc.data() as User
         })
 
+        let contactPresponse = [] as Array<Contact>
         contactList.forEach(x=>{
             const user = userDis[x.userID] as User
-            x.avatarUrl = user.avatarUrl
-            x.name = user.name
-            
+            const contact = {} as Contact
+            contact.userID = x.userID
+            contact.messageID = x.messageID
+            contact.date =x.date
+            contact.lastMessage = x.lastMessage
+            contact.avatarUrl = user.avatarUrl
+            contact.name = user.name
+            contactPresponse.push(contact)
+
         })
 
         res.status(200).send({
             isError:false,
             message:"data",
             data:{
-                listContactUser: contactList
+                listContactUser: contactPresponse
             }
         })
         
