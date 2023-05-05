@@ -59,7 +59,7 @@ const register = async (req: Request, res: Response): Promise<void> => {
             }
         })
     }catch(error){
-    res.status(400).send({
+    res.status(500).send({
         isError: true,
         message:error
     })
@@ -102,7 +102,7 @@ const login = async (req:Request, res:Response):Promise<void> =>{
             throw "Incorrect password"
         }
    }catch(error){
-    res.status(400).send({
+    res.status(500).send({
         isError:true,
         message:error
     })
@@ -125,7 +125,7 @@ const logout = async (req:Request, res: Response):Promise<void>=>{
         })
 
     }catch(error){
-        res.status(400).send({
+        res.status(500).send({
             isError:true,
             message:error
         })
@@ -144,7 +144,7 @@ const update = async (req:Request, res: Response): Promise<void>=>{
             message:"Update profile successful"
         })
     }catch(error){
-        res.status(400).send({
+        res.status(500).send({
             isError:true,
             message:error
         })
