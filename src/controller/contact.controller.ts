@@ -46,7 +46,7 @@ const getContacts = async (req:Request, res:Response):Promise<void> =>{
         
     }
     catch(error){
-        res.status(500).send({
+        res.status(200).send({
             isError:true,
             message:error
         })
