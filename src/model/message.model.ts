@@ -2,7 +2,7 @@ export interface Message{
     senderID:string
     content:string
     fileUrl:string
-    isImage: boolean
+    fileType: string
     isRecall: boolean
     date:string
 }
