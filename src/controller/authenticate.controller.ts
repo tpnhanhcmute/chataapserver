@@ -26,6 +26,7 @@ const resendOtp =async (req: Request, res: Response): Promise<void> =>{
         })
     }
 }
+
 const authenticateOtp = async (req:Request, res: Response):Promise<void>=>{
    try{
         const autheticateOTP = req.body as AuthenticationOTPRequest
