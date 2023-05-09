@@ -138,9 +138,21 @@ const update = async (req:Request, res: Response): Promise<void>=>{
     try{
         const newInfo = req.body as UpdateProfileRequest
         let objectUpdate={} as any
+
         if(newInfo.avatarUrl) objectUpdate["avatarUrl"] = newInfo.avatarUrl
         if(newInfo.name) objectUpdate["name"]= newInfo.name
         if(newInfo.phoneNumber) objectUpdate["phoneNumber"] = newInfo.phoneNumber
+
+        const userRef = (await database.collection("user").where("phoneNumber").get())
+        if(!userRef.empty){
+            for(let index =0; index < userRef.docs.length;index++){
+                if(userRef.docs[index].id.includes(newInfo.userID))
+                    continue
+                
+                throw "Phone number is not valid"
+            }
+        }
+       
 
         const userDoc = await database.collection('user').doc(newInfo.userID.toString()).update(
             objectUpdate
