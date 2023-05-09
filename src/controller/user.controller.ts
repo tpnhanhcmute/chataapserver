@@ -143,12 +143,12 @@ const update = async (req:Request, res: Response): Promise<void>=>{
         if(newInfo.name) objectUpdate["name"]= newInfo.name
         if(newInfo.phoneNumber) objectUpdate["phoneNumber"] = newInfo.phoneNumber
 
-        const userRef = (await database.collection("user").where("phoneNumber").get())
+        const userRef = (await database.collection("user").where("phoneNumber","==", newInfo.phoneNumber).get())
         if(!userRef.empty){
             for(let index =0; index < userRef.docs.length;index++){
-                if(userRef.docs[index].id.includes(newInfo.userID))
+                if(userRef.docs[index].id == newInfo.userID)
                     continue
-                
+
                 throw "Phone number is not valid"
             }
         }
