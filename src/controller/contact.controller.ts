@@ -7,6 +7,7 @@ import { User } from "../model/user.model";
 import { SearchRequest } from "../model/search.request";
 import { Search } from "../model/search";
 import { SearchResponse } from "../model/search.response";
+import { MapPhoneNumberRequest } from "../model/mapPhoneNumberRequest";
 
 const getContacts = async (req:Request, res:Response):Promise<void> =>{
     let getContactsRequest = req.body as RequestContact
@@ -116,6 +117,43 @@ const search =async (req: Request, res: Response) : Promise<void> =>{
         })
     }
 }
+
+const mapPhoneNumber = async (req:Request, res: Response) :Promise<void>=>{
+    const mapPhoneNumberReqeust = req.body as MapPhoneNumberRequest
+    try{
+        const userRef = database.collection("user").where('phoneNumber', "in",mapPhoneNumberReqeust.phoneNumberList)
+        const userDocs = await userRef.get()
+        const response = {} as  any
+        if(!userDocs.empty){
+            userDocs.docs.forEach(x=>{
+                const user = x.data()
+
+                const search = {} as Search
+                search.userID = user.userID
+                search.avatarUrl =user.avatarUrl
+                search.email = user.email
+                search.phoneNumber = user.phoneNumber 
+                search.name = user.name
+
+                response[user.phoneNumber] = search
+            })
+        }
+        res.status(200).send({
+            isError:false,
+            message:"Mapping phoneNumber",
+            data: {
+                "mapPhoneNumber":response
+            }
+        })
+
+        
+    }catch(error){
+        res.status(200).send({
+            isError:true,
+            message:error
+        })
+    }
+}
 export default {
-    getContacts, search
+    getContacts, search,mapPhoneNumber
 }
