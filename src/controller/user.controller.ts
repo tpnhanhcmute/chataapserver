@@ -97,6 +97,7 @@ const login = async (req:Request, res:Response):Promise<void> =>{
                     name: userInfo.name,
                     email:userInfo.email,
                     password:userInfo.password,
+                    avatarUrl: userInfo.avatarUrl
                 }
             })
         }else{
