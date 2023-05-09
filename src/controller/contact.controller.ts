@@ -121,15 +121,36 @@ const search =async (req: Request, res: Response) : Promise<void> =>{
 const mapPhoneNumber = async (req:Request, res: Response) :Promise<void>=>{
     const mapPhoneNumberReqeust = req.body as MapPhoneNumberRequest
     try{
-        const userRef = database.collection("user").where('phoneNumber', "in",mapPhoneNumberReqeust.phoneNumberList)
-        const userDocs = await userRef.get()
-        const response = {} as  any
-        if(!userDocs.empty){
-            userDocs.docs.forEach(x=>{
-                const user = x.data()
 
+        const filterSplit = []
+        const size = 30
+        for(let i =0;i< mapPhoneNumberReqeust.phoneNumberList.length;i+=size){
+            const chunk = mapPhoneNumberReqeust.phoneNumberList.slice(i, i + size) as Array<string>
+            filterSplit.push(chunk)
+        }
+
+        const userDocs  = []
+        let userSnapshots = []
+
+        filterSplit.forEach(x=>{
+            const userRef = database.collection("user").where('phoneNumber', "in",x as Array<string>)
+
+            userDocs.push( async function(userSnapshots) {
+                const userDoc = await userRef.get();
+                console.log(userDoc.docs.length);
+                userSnapshots.push(userDoc.docs)
+                
+            })
+        })
+
+        await Promise.all(userDocs.map((fn) => fn(userSnapshots)))
+
+        const response = {} as any
+        userSnapshots.forEach(userSnapshot=>{
+            userSnapshot.forEach(x=>{
+                const user = x.data() as User
                 const search = {} as Search
-                search.userID = user.userID
+                search.userID = x.id
                 search.avatarUrl =user.avatarUrl
                 search.email = user.email
                 search.phoneNumber = user.phoneNumber 
@@ -137,7 +158,7 @@ const mapPhoneNumber = async (req:Request, res: Response) :Promise<void>=>{
 
                 response[user.phoneNumber] = search
             })
-        }
+        })
         res.status(200).send({
             isError:false,
             message:"Mapping phoneNumber",
