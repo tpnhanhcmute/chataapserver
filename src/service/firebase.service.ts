@@ -1,9 +1,7 @@
 import * as admin from 'firebase-admin';
 import * as serviceAccount from '../config/firebase_service_accout_key.json';
-import firebase from 'firebase/app';
 import 'firebase/firestore';
 import * as dotenv from "dotenv";
-import { getFirestore} from 'firebase-admin/firestore';
 
 dotenv.config();
 const app = admin.initializeApp({

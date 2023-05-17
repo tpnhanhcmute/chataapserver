@@ -28,7 +28,6 @@ const sendMessage = async (req:Request, res:Response): Promise<void> =>{
             isError:false,
             message:"Send message sucessfully"
         })    
-
        
         let registerDeviceToken = []
       
